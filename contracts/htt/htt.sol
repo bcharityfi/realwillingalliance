@@ -11,7 +11,7 @@ import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Ini
 import {NoncesUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/NoncesUpgradeable.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
-contract RealWillingAlliance is Initializable, ERC20Upgradeable, ERC20PausableUpgradeable, AccessManagedUpgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradeable, UUPSUpgradeable {
+contract HTT is Initializable, ERC20Upgradeable, ERC20PausableUpgradeable, AccessManagedUpgradeable, ERC20PermitUpgradeable, ERC20VotesUpgradeable, UUPSUpgradeable {
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
@@ -20,14 +20,14 @@ contract RealWillingAlliance is Initializable, ERC20Upgradeable, ERC20PausableUp
     function initialize(address recipient, address initialAuthority)
         public initializer
     {
-        __ERC20_init("RealWillingAlliance", "RWA");
+        __ERC20_init("X-Verse", "HTT");
         __ERC20Pausable_init();
         __AccessManaged_init(initialAuthority);
-        __ERC20Permit_init("RealWillingAlliance");
+        __ERC20Permit_init("X-Verse");
         __ERC20Votes_init();
         __UUPSUpgradeable_init();
 
-        _mint(recipient, 2100000000 * 10 ** decimals());
+        _mint(recipient, 18000000000 * 10 ** decimals());
     }
 
     function pause() public restricted {

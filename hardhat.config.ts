@@ -1,36 +1,58 @@
-import type { HardhatUserConfig } from "hardhat/config";
-// import "@nomicfoundation/hardhat-chai-matchers";
+import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
-import "@matterlabs/hardhat-zksync";
-// import "@typechain/hardhat";
+import "@typechain/hardhat";
+import "@nomicfoundation/hardhat-chai-matchers";
+import "@openzeppelin/hardhat-upgrades";
+
+import dotenv from "dotenv";
+dotenv.config();
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.28",
-  defaultNetwork: "zkSyncSepoliaTestnet", // "inMemoryNode",
+  defaultNetwork: "localhost",
   networks: {
-    inMemoryNode: {
-      url: "http://127.0.0.1:8011",
-      ethNetwork: "", // in-memory node doesn't support eth node; removing this line will cause an error
-      zksync: true,
+    hardhat: {},
+    localhost: {
+      url: "http://127.0.0.1:8545",
+      accounts: process.env.WALLET_PRIVATE_KEY ? [process.env.WALLET_PRIVATE_KEY] : [],
     },
-    zkSyncSepoliaTestnet: {
+    ZKsyncEraSepolia: {
       url: "https://sepolia.era.zksync.dev",
-      ethNetwork: "sepolia",
-      zksync: true,
-      verifyURL:
-        "https://explorer.sepolia.era.zksync.dev/contract_verification",
+      accounts: process.env.WALLET_PRIVATE_KEY ? [process.env.WALLET_PRIVATE_KEY] : [],
     },
-    zkSyncMainnet: {
+    ZKsyncEraMainnet: {
       url: "https://mainnet.era.zksync.io",
-      ethNetwork: "mainnet",
-      zksync: true,
-      verifyURL:
-        "https://zksync2-mainnet-explorer.zksync.io/contract_verification",
-    },
-    hardhat: {
-      zksync: true,
+      accounts: process.env.WALLET_PRIVATE_KEY ? [process.env.WALLET_PRIVATE_KEY] : [],
     },
   },
+  etherscan: {
+    apiKey: {
+      // no API key is required
+      ZKsyncEraSepolia: "Y4CA5KGNQ4RADFEDIRGKB789I34RP9V9Y2",
+      ZKsyncEraMainnet: "Y4CA5KGNQ4RADFEDIRGKB789I34RP9V9Y2",
+    },
+    customChains: [
+      {
+        network: "ZKsyncEraSepolia",
+        chainId: 300,
+        urls: {
+          apiURL: "https://block-explorer-api.sepolia.zksync.dev/api",
+          browserURL: "https://sepolia.explorer.zksync.io"
+        }
+      },
+      {
+        network: "ZKsyncEraMainnet",
+        chainId: 324,
+        urls: {
+          apiURL: "https://block-explorer-api.mainnet.zksync.io/api",
+          browserURL: "https://explorer.zksync.io"
+        }
+      }
+    ]
+  },
+  solidity: "0.8.28",
+  sourcify: {
+    enabled: true
+  }
 };
 
 export default config;
