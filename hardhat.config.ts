@@ -1,58 +1,67 @@
-import { HardhatUserConfig } from "hardhat/config";
+import type { HardhatUserConfig } from "hardhat/config";
+
 import "@nomicfoundation/hardhat-toolbox";
 import "@typechain/hardhat";
 import "@nomicfoundation/hardhat-chai-matchers";
-import "@openzeppelin/hardhat-upgrades";
+import "@matterlabs/hardhat-zksync";
 
 import dotenv from "dotenv";
 dotenv.config();
 
 const config: HardhatUserConfig = {
-  defaultNetwork: "localhost",
+  defaultNetwork: "anvilZKsync",
   networks: {
-    hardhat: {},
-    localhost: {
-      url: "http://127.0.0.1:8545",
-      accounts: process.env.WALLET_PRIVATE_KEY ? [process.env.WALLET_PRIVATE_KEY] : [],
-    },
     ZKsyncEraSepolia: {
       url: "https://sepolia.era.zksync.dev",
-      accounts: process.env.WALLET_PRIVATE_KEY ? [process.env.WALLET_PRIVATE_KEY] : [],
+      chainId: 300, //ethNetwork: "sepolia",
+      zksync: true,
+      verifyURL:
+        "https://explorer.sepolia.era.zksync.dev/contract_verification",
+      accounts: process.env.WALLET_PRIVATE_KEY
+        ? [process.env.WALLET_PRIVATE_KEY]
+        : [],
     },
     ZKsyncEraMainnet: {
       url: "https://mainnet.era.zksync.io",
-      accounts: process.env.WALLET_PRIVATE_KEY ? [process.env.WALLET_PRIVATE_KEY] : [],
+      ethNetwork: "mainnet",
+      zksync: true,
+      verifyURL:
+        "https://zksync2-mainnet-explorer.zksync.io/contract_verification",
+      accounts: process.env.WALLET_PRIVATE_KEY
+        ? [process.env.WALLET_PRIVATE_KEY]
+        : [],
+    },
+    dockerizedNode: {
+      url: "http://localhost:3050",
+      ethNetwork: "http://localhost:8545",
+      zksync: true,
+      accounts: process.env.WALLET_PRIVATE_KEY
+        ? [process.env.WALLET_PRIVATE_KEY]
+        : [],
+    },
+    anvilZKsync: {
+      url: "http://127.0.0.1:8011",
+      ethNetwork: 'http://localhost:8545',
+      zksync: true,
+      accounts: process.env.WALLET_PRIVATE_KEY
+        ? [process.env.WALLET_PRIVATE_KEY]
+        : [],
+    },
+    hardhat: {
+      zksync: true,
     },
   },
-  etherscan: {
-    apiKey: {
-      // no API key is required
-      ZKsyncEraSepolia: "Y4CA5KGNQ4RADFEDIRGKB789I34RP9V9Y2",
-      ZKsyncEraMainnet: "Y4CA5KGNQ4RADFEDIRGKB789I34RP9V9Y2",
-    },
-    customChains: [
-      {
-        network: "ZKsyncEraSepolia",
-        chainId: 300,
-        urls: {
-          apiURL: "https://block-explorer-api.sepolia.zksync.dev/api",
-          browserURL: "https://sepolia.explorer.zksync.io"
-        }
-      },
-      {
-        network: "ZKsyncEraMainnet",
-        chainId: 324,
-        urls: {
-          apiURL: "https://block-explorer-api.mainnet.zksync.io/api",
-          browserURL: "https://explorer.zksync.io"
-        }
-      }
-    ]
+  zksolc: {
+    version: "1.5.15",
+    // settings: {
+    //   codegen: 'yul',
+    //   // find all available options in the official documentation
+    //   // https://docs.zksync.io/build/tooling/hardhat/hardhat-zksync-solc#configuration
+    // },
   },
-  solidity: "0.8.28",
-  sourcify: {
-    enabled: true
-  }
+  solidity: {
+    version: "0.8.28",
+  },
 };
 
 export default config;

@@ -1,24 +1,24 @@
-import { ethers, upgrades } from "hardhat";
+import { getWallet } from "../../utils";
+import { Deployer } from "@matterlabs/hardhat-zksync";
+import { ethers } from "ethers";
+import { HardhatRuntimeEnvironment } from "hardhat/types";
 
-async function main() {
-  const factory = await ethers.getContractFactory(
+export default async function (hre: HardhatRuntimeEnvironment) {
+  const wallet = getWallet();
+  const deployer = new Deployer(hre, wallet);
+
+  const contractArtifact = await deployer.loadArtifact(
     "HTT"
   );
   const recipient = "0x03ADEC4FaDEef145a1719777fF83334e0bc1A100";
   const initialAuthority = "0x03ADEC4FaDEef145a1719777fF83334e0bc1A100";
 
-  const htt = await upgrades.deployProxy(
-    factory,
+  const htt = await hre.zkUpgrades.deployProxy(
+    getWallet(),
+    contractArtifact,
     [recipient, initialAuthority],
     { initializer: "initialize" }
   );
 
   await htt.waitForDeployment();
 }
-
-main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
