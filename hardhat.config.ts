@@ -13,7 +13,8 @@ const config: HardhatUserConfig = {
   networks: {
     ZKsyncEraSepolia: {
       url: "https://sepolia.era.zksync.dev",
-      chainId: 300, //ethNetwork: "sepolia",
+      chainId: 300,
+      ethNetwork: "sepolia",
       zksync: true,
       verifyURL:
         "https://explorer.sepolia.era.zksync.dev/contract_verification",
@@ -53,11 +54,11 @@ const config: HardhatUserConfig = {
   },
   zksolc: {
     version: "1.5.15",
-    // settings: {
-    //   codegen: 'yul',
-    //   // find all available options in the official documentation
-    //   // https://docs.zksync.io/build/tooling/hardhat/hardhat-zksync-solc#configuration
-    // },
+    settings: {
+      codegen: 'yul',
+      // find all available options in the official documentation
+      // https://docs.zksync.io/build/tooling/hardhat/hardhat-zksync-solc#configuration
+    },
   },
   solidity: {
     version: "0.8.28",

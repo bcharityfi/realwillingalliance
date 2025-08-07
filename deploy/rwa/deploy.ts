@@ -16,9 +16,13 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   const rwa = await hre.zkUpgrades.deployProxy(
     getWallet(),
     contractArtifact,
-    [recipient, initialAuthority],    
+    [recipient, initialAuthority],
     { initializer: "initialize" }
   );
 
   await rwa.waitForDeployment();
 }
+
+// Successfully compiled 14 Solidity files
+// Era Sepolia Implementation contract was deployed to 0xF95A031C464d0428D00E49e914757Fe2ef595d3D
+// Era Sepolia UUPS proxy was deployed to 0x40D2b3b9f8566Fa19c2F1F5b6aA445B171cC3f53
