@@ -23,6 +23,10 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   await rwa.waitForDeployment();
 }
 
-// Successfully compiled 14 Solidity files
-// Era Sepolia Implementation contract was deployed to 0xF95A031C464d0428D00E49e914757Fe2ef595d3D
+// August 7, 2025
 // Era Sepolia UUPS proxy was deployed to 0x40D2b3b9f8566Fa19c2F1F5b6aA445B171cC3f53
+
+// August 8, 2025
+// 1. Era UUPS proxy was deployed to 0x65F081c9428D5782EF2bf74FFEA0e46675f9Db39
+// 2. Era UUPS proxy was deployed to 0xB8385002d6CC2fD5F980f45602cbd156FdFe00e9
+
